@@ -16,6 +16,9 @@ def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
     y_max = y[ind_max]
     Xlh = X[(ind_min, ind_max), :]
     yprd_lh = np.dot(Xlh, theta)
+    print(Xlh)
+    print()
+    print(yprd_lh)
     (fig, axe) = plt.subplots(1, 2)
     axe[0].plot(X[:, ind], y, 'mo', Xlh, yprd_lh, 'c-')
     axe[0].axis((x_min - 3, x_max + 3, min(y_min, y_max) - 3, max(y_min, y_max) + 3))
@@ -71,14 +74,14 @@ m = y.size
 onesvec = np.ones((m, 1))
 X = np.concatenate((onesvec, x), axis=1)
 
-
 # After testing, I found out the best alpha = 0.00002 the best iter = 100
-theta = np.random.random((2, 1)).reshape(-1, 1)
+theta = np.random.random((2, 1))
 alpha = 0.00002
 num_iter = 100
 theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 deg = [87, 58, 38]
+print(f'theta0 = {theta[0]}    theta1 = {theta[1]}')
 for d in deg:
     h = theta[0] + theta[1] * d
-    print(f'the prediction for frequency = {h}')
+    print(f'the prediction frequency for {d} degrees = {h}')
