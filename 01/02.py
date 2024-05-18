@@ -70,14 +70,14 @@ y = y.reshape(y.shape[0], 1)
 m = y.size
 onesvec = np.ones((m, 1))
 X = np.concatenate((onesvec, x), axis=1)
-alphas = [0.2, 0.02, 0.002, 0.0002, 0.00002]
-iters = [100, 1000, 10000]
-for alpha in alphas:
-    for num_iter in iters:
-        theta = np.zeros((2, 1))
-        theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
-        plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 
+
+# After testing, I found out the best alpha = 0.00002 the best iter = 100
+theta = np.random.random((2, 1)).reshape(-1, 1)
+alpha = 0.00002
+num_iter = 100
+theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
+plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 deg = [87, 58, 38]
 for d in deg:
     h = theta[0] + theta[1] * d
