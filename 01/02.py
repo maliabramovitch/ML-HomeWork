@@ -3,13 +3,6 @@ import matplotlib.pyplot as plt
 
 
 def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
-    """
-    plot_reg_line plots the data points and regression line
-    for linear regrssion
-    Input arguments: X - np array (m, n) - independent variable.
-    y - np array (m,1) - target variable
-    theta - parameters
-    """
     if X.shape[1] == 2:
         ind = 1
     else:
@@ -47,51 +40,45 @@ def show_data():
 
     plt.plot(x, y, 'or')
     plt.grid()
+    plt.title('Cricket Data')
     plt.show()
-    return x, y, plt
+    return data
 
 
 def cost_computation(X, y, q):
     m = y.shape[0]
     z = np.dot(X, q) - y
-    J = (1 / 2 * m) * np.dot(z.T, z)
+    J = 1 / (2 * m) * (np.dot(z.T, z)[0][0])
     return J
 
 
 def gd_batch(X, y, q, alpha, num_iter):
-    m = y.shape[0]
-    J_iter = np.zeros((num_iter))
-    k = 0
+    J_iter = np.zeros((num_iter, 1))
     for j in range(num_iter):
-        randindex = np.random.permutation(m)
-        for i in range(m):
-            xi = X[randindex[i], :]
-            xi = xi.reshape(1, xi.shape[0])
-            yi = y[randindex[i]]
-            delta = np.dot(xi, q) - yi
-            q -= alpha * delta * xi.T
-        J = cost_computation(X, y, q)[0][0]
-        J_iter[k] = J
-        k += 1
+        q -= alpha * (X.T @ (np.dot(X, q) - y))
+        J_iter[j] = cost_computation(X, y, q)
     return q, J_iter
 
 
-show_data()
-data = np.load('Cricket.npz')
+data = show_data()
 sorted(data)
 yx = data['arr_0']
 x = yx[:, 1]
 y = yx[:, 0]
 x = x.reshape(x.shape[0], 1)
 y = y.reshape(y.shape[0], 1)
-
 m = y.size
 onesvec = np.ones((m, 1))
 X = np.concatenate((onesvec, x), axis=1)
-alpha = 0.00002
-num_iter = 100
+alpha = 0.000005
+num_iter = 100000
 n1 = X.shape[1]
-theta = np.zeros((n1, 1))
+# theta = np.random.random(len(X[0])).reshape(-1, 1)
+theta = np.zeros((2, 1))
 theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
-print(f"theta0 = {theta[0]}    theta1 = {theta[1]}")
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
+
+deg = [87, 58, 38]
+for d in deg:
+    h = theta[0] + theta[1] * d
+    print(f'the prediction for frequency = {h}')
