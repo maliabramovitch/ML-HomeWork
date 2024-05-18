@@ -93,5 +93,5 @@ num_iter = 100
 n1 = X.shape[1]
 theta = np.zeros((n1, 1))
 theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
-print(f"theta0 = {theta[0]}/theta1 = {theta[1]}")
+print(f"theta0 = {theta[0]}    theta1 = {theta[1]}")
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
