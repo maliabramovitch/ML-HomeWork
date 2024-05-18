@@ -26,7 +26,7 @@ def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
     axe[1].set_title('Cost')
     axe[1].grid()
     alpha_str = "{:.5f}".format(alpha)
-    fig.suptitle(f'iter: {iter}    Alpha: {alpha_str}')
+    fig.suptitle(f'Iter: {iter}    Alpha: {alpha_str}')
     plt.tight_layout()
     fig.show()
 
@@ -70,13 +70,13 @@ y = y.reshape(y.shape[0], 1)
 m = y.size
 onesvec = np.ones((m, 1))
 X = np.concatenate((onesvec, x), axis=1)
-alpha = 0.000005
-num_iter = 100000
-n1 = X.shape[1]
-# theta = np.random.random(len(X[0])).reshape(-1, 1)
-theta = np.zeros((2, 1))
-theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
-plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
+alphas = [0.2, 0.02, 0.002, 0.0002, 0.00002]
+iters = [100, 1000, 10000]
+for alpha in alphas:
+    for num_iter in iters:
+        theta = np.zeros((2, 1))
+        theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
+        plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 
 deg = [87, 58, 38]
 for d in deg:
