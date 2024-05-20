@@ -58,8 +58,8 @@ def gd_mini_batch(X, y, q, alpha, num_iter, mini_batch_size):
     for j in range(num_iter):
         rand_frame = np.random.permutation(mini_batch_size)
         for i in rand_frame:
-            start = i*mini_batch_size
-            end = start + (m//mini_batch_size)+1
+            start = i * mini_batch_size
+            end = start + (m // mini_batch_size) + 1
             x_batch = X[start: end, :]
             y_batch = y[start: end, :]
             q -= alpha * (x_batch.T @ (np.dot(x_batch, q) - y_batch))
