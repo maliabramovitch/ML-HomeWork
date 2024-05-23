@@ -58,7 +58,7 @@ def gd_mini_batch(X, y, q, alpha, num_iter, mini_batch_size):
     for j in range(num_iter):
         rand_frame = np.random.permutation(mini_batch_size)
         for i in rand_frame:
-            start = i * mini_batch_size
+            start = i + mini_batch_size
             end = start + (m // mini_batch_size) + 1
             x_batch = X[start: end, :]
             y_batch = y[start: end, :]
@@ -82,7 +82,7 @@ print(f'theta0 = {theta[0]}    theta1 = {theta[1]}')
 print(f'Cost = {J_iter[-1]}')
 for m in [2.1, 3.5, 5.2]:
     h = theta[0] + theta[1] * m
-    print(f'the prediction for explosion with {m} duration = {h}')
+    print(f'the prediction for explosion with {m} minutes duration = {h}')
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 
 # the best alpha values are between: 0.001 - 0.000005

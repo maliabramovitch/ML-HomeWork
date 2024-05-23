@@ -37,19 +37,17 @@ def plot_reg_line(X, y, theta):
 
 
 def plot_reg_line2(X, y, theta):
-    def plot_reg_line2(X, y, theta):
-        plt.figure(figsize=(10, 6))
-        plt.scatter(X[:, 1], y, color='blue', label='Data points')
-        x_fit = np.linspace(X[:, 1].min(), X[:, 1].max(), 500).reshape(-1, 1)
-        x_fit_poly = np.concatenate((np.ones_like(x_fit), x_fit, x_fit ** 2), axis=1)
-        y_fit = np.dot(x_fit_poly, theta)
-        plt.plot(x_fit, y_fit, color='red', label='Polynomial Regression line')
-        plt.title("Polynomial Regression with custom implementation")
-        plt.xlabel("Feature 1")
-        plt.ylabel("Target")
-        plt.legend()
-        plt.grid(True)
-        plt.show()
+    plt.figure(figsize=(10, 6))
+    plt.scatter(X[:, 1], y, color='blue', label='Data points')
+    x_fit = np.linspace(X[:, 1].min(), X[:, 1].max(), 500).reshape(-1, 1)
+    x_fit_poly = np.concatenate((np.ones_like(x_fit), x_fit, x_fit ** 2), axis=1)
+    y_fit = np.dot(x_fit_poly, theta)
+    plt.plot(x_fit, y_fit, color='red', label='Polynomial Regression line')
+    plt.title("Polynomial Regression with custom implementation")
+    plt.xlabel("Feature 1")
+    plt.ylabel("Target")
+    plt.grid(True)
+    plt.show()
 
 
 def show_data(show=False):
@@ -125,7 +123,6 @@ def lr_12():
     X = np.concatenate((X, X ** 2), axis=1)
     model = LinearRegression(fit_intercept=True)
     model.fit(X, y)
-    predictions = model.predict(X)
     x_fit = np.linspace(X[:, 0].min(), X[:, 0].max(), 500).reshape(-1, 1)
     x_fit_poly = np.concatenate((x_fit, x_fit ** 2), axis=1)
     y_fit = model.predict(x_fit_poly)
@@ -151,16 +148,15 @@ def my_lr2():
     m = x.shape[0]
     X = np.concatenate((np.ones((m, 1)), X), axis=1)
     q, J_iter = gd_batch(X, y, theta, 0.000001, 5000)
-    print(J_iter)
     plot_reg_line2(X, y, q)
     a = model.coef_[0]
     b = model.intercept_
     y = lambda x: x * a + b
     for m in [15, 27]:
         print(f'The predicted price for {m} meters from the model = {y(m)[0]}')
-    h = lambda x: q[0] + q[1]*x
+    h = lambda x: q[0] + q[1] * x
     for m in [15, 27]:
-            print(f'The predicted price for {m} meters from the gd_bach = {h(m)[0]}')
+        print(f'The predicted price for {m} meters from the gd_bach = {h(m)[0]}')
 
 
 my_lr2()
