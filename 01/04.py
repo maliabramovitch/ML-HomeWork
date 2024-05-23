@@ -152,6 +152,8 @@ def my_lr2():
     y = model.predict(X[:,1:])
     for m in [15, 27]:
         print(f'The predicted price for {m} meters from the model = {model.predict([[m, m**2]])}')
+    print("we can see that the liniar regression predicted preformed better")
 
 
 my_lr2()
+
