@@ -45,27 +45,34 @@ def show_data():
 
 
 def cost_computation(X, y, q):
-    m = y.shape[0]
+    m = X.shape[0]
     z = np.dot(X, q) - y
     J = 1 / (2 * m) * (np.dot(z.T, z)[0][0])
     return J
 
 
-def gd_mini_batch(X, y, q, alpha, num_iter, mini_batch_size):
-    m = y.shape[0]
+def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
+    m = X.shape[0]
     J_iter = np.zeros(num_iter)
-    k = 0
     for j in range(num_iter):
-        rand_frame = np.random.permutation(mini_batch_size)
-        for i in rand_frame:
-            start = i + mini_batch_size
-            end = start + (m // mini_batch_size) + 1
-            x_batch = X[start: end, :]
-            y_batch = y[start: end, :]
-            q -= alpha * (x_batch.T @ (np.dot(x_batch, q) - y_batch))
-        J_iter[k] = cost_computation(x_batch, y_batch, q)
-        k += 1
-    return q, J_iter
+        indices = np.arange(m)
+        np.random.shuffle(indices)
+
+        X_shuffled = X[indices]
+        y_shuffled = y[indices]
+
+        for start in range(0, m, batch_size):
+            end = start + batch_size
+            X_batch = X_shuffled[start:end]
+            y_batch = y_shuffled[start:end]
+
+            delta = np.dot(X_batch, theta) - y_batch
+            theta = theta - q * np.dot(X_batch.T, delta)
+
+        J = cost_computation(X, y, theta)
+        J_iter[j] = J
+
+    return theta, J_iter
 
 
 x, y = show_data()

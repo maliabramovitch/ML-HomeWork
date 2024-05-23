@@ -19,14 +19,6 @@ def set_data():
     return X, y
 
 
-def show_data(X):
-    data = np.loadtxt('faithful.txt')
-    n_row = data.shape[0]
-    x = data[:, 0].reshape(n_row, 1)
-    y = data[:, 1].reshape(n_row, 1)
-    return x, y
-
-
 def cost_computation(X, y, q):
     m = X.shape[0]
     z = np.dot(X, q) - y
@@ -34,23 +26,30 @@ def cost_computation(X, y, q):
     return J
 
 
-def gd_mini_batch(X, y, q, alpha, num_iter, mini_batch_size):
+def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
     m = X.shape[0]
     J_iter = np.zeros(num_iter)
-    k = 0
     for j in range(num_iter):
-        rand_frame = np.random.permutation(mini_batch_size)
-        x_batch = 0
-        y_batch = 0
-        for i in rand_frame:
-            start = i + mini_batch_size
-            end = start + (m // mini_batch_size) + 1
-            x_batch = X[start: end, :]
-            y_batch = y[start: end, :]
-            q -= alpha * (x_batch.T @ (np.dot(x_batch, q) - y_batch))
-        J_iter[k] = cost_computation(x_batch, y_batch, q)
-        k += 1
-    return q, J_iter
+        indices = np.arange(m)
+        np.random.shuffle(indices)
+
+        X_shuffled = X[indices]
+        y_shuffled = y[indices]
+
+        for start in range(0, m, batch_size):
+            end = start + batch_size
+            X_batch = X_shuffled[start:end]
+            y_batch = y_shuffled[start:end]
+
+            delta = np.dot(X_batch, theta) - y_batch
+            theta = theta - q * np.dot(X_batch.T, delta)
+
+        J = cost_computation(X, y, theta)
+        J_iter[j] = J
+
+    return theta, J_iter
+
+    return theta, J_iter
 
 
 def plot_reg_line_and_cost_3(X, y, theta, j_iter, iter):
@@ -102,14 +101,17 @@ def plot_reg_line_and_cost_3(X, y, theta, j_iter, iter):
 
 
 X, y = set_data()
-show_data(X)
 X, mean1, mean2, div1, div2 = data_normalization(X)
 X = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
 theta = np.zeros((3, 1))
 alpha = 0.001
-num_iter = 10000
-q, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, mini_batch_size=16)
-plot_reg_line_and_cost_3(X, y, theta, J_iter, num_iter)
-print(f"theta0={theta[0]}    theta1={theta[1]}    theta2={theta[2]}")
-h = theta[0] + theta[1] * 1200 + theta[2] * 5
+num_iter = 100
+q, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, 16)
+plot_reg_line_and_cost_3(X, y, q, J_iter, num_iter)
+print(f"theta0={q[0]}    theta1={q[1]}    theta2={q[2]}")
+h = q[0] + q[1] * ((1200-mean1)/div1) + (((q[2])-mean2)/div2) * 5
 print(f"The predicted cost for house with 1200 sf and 5 rooms: {h}")
+
+
+
+

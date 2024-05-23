@@ -149,14 +149,9 @@ def my_lr2():
     X = np.concatenate((np.ones((m, 1)), X), axis=1)
     q, J_iter = gd_batch(X, y, theta, 0.000001, 5000)
     plot_reg_line2(X, y, q)
-    a = model.coef_[0]
-    b = model.intercept_
-    y = lambda x: x * a + b
+    y = model.predict(X[:,1:])
     for m in [15, 27]:
-        print(f'The predicted price for {m} meters from the model = {y(m)[0]}')
-    h = lambda x: q[0] + q[1] * x
-    for m in [15, 27]:
-        print(f'The predicted price for {m} meters from the gd_bach = {h(m)[0]}')
+        print(f'The predicted price for {m} meters from the model = {model.predict([[m, m**2]])}')
 
 
 my_lr2()
