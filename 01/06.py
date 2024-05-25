@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 
 def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
+    '''
+
+    '''
     if X.shape[1] == 2:
         ind = 1
     else:
@@ -17,7 +20,7 @@ def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
     Xlh = X[(ind_min, ind_max), :]
     yprd_lh = np.dot(Xlh, theta)
     (fig, axe) = plt.subplots(1, 2)
-    axe[0].plot(X[:, ind], y, 'mo', Xlh[:,1], yprd_lh, 'c-')
+    axe[0].plot(X[:, ind], y, 'm.', Xlh[:, 1], yprd_lh, 'c-')
     axe[0].axis((x_min - 3, x_max + 3, min(y_min, y_max) - 3, max(y_min, y_max) + 3))
     axe[0].set_title('Regression data')
     axe[0].grid()
@@ -32,16 +35,17 @@ def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
 
 
 def show_data():
-    data = np.loadtxt('faithful.txt')
-    n_row = data.shape[0]
-    x = data[:, 0].reshape(n_row, 1)
-    y = data[:, 1].reshape(n_row, 1)
-    plt.plot(x, y, 'xr')
-    plt.title('Faithful Geyser')
-    plt.xlabel('Duration of minutes of the eruption')
-    plt.ylabel('Time to next eruption (minutes)')
+    data = np.genfromtxt(fname='kleibers_law_data.csv', skip_header=1, delimiter=',')
+    X = np.log(data[:, 0])
+    X = X.reshape(-1, 1)
+    y = np.log(data[:, 1])
+    y = y.reshape((-1, 1))
+    plt.plot(X, y, 'm.')
+    plt.title('Cost of house in 100K ILS')
+    plt.xlabel("House's front Length in meters")
+    plt.ylabel("House's cost in 100K ILS")
     plt.show()
-    return x, y
+    return X, y
 
 
 def cost_computation(X, y, q):
@@ -75,21 +79,20 @@ def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
     return theta, J_iter
 
 
-x, y = show_data()
-x = x.reshape(x.shape[0], 1)
-y = y.reshape(y.shape[0], 1)
-m = x.shape[0]
-X = np.concatenate((np.ones((m, 1)), x), axis=1)
-theta = np.random.random((2, 1))
+# a
+X, y = show_data()
+# b
+X = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
+theta = np.zeros((2, 1))
 alpha = 0.001
-num_iter = 2000
-mini_batch_size = 16
-theta, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, mini_batch_size)
-print(f'theta0 = {theta[0]}    theta1 = {theta[1]}')
-print(f'Cost = {J_iter[-1]}')
-for m in [2.1, 3.5, 5.2]:
-    h = theta[0] + theta[1] * m
-    print(f'the prediction for explosion with {m} minutes duration = {h}')
-plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
-
-# the best alpha values are between: 0.001 - 0.000005
+num_iter = 200
+q, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, 14)
+# c
+plot_reg_line_and_cost(X, y, q, J_iter, num_iter, alpha)
+print(f"theta0={q[0]}    theta1={q[1]}")
+# d
+h = lambda x: q[0] + x * q[1]
+print(f"the predictable calories consumption for 250 kg mammal is: {(np.exp(h(np.log(250))) / 4.18) * 1000}")
+# e
+w = lambda x: (x - q[0]) / q[1]
+print(f'The weight of mammal that consume 3.5 kjoul per day is {np.exp(w(np.log(3.5)))}')

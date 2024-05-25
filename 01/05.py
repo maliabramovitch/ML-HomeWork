@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 
 
 def data_normalization(X):
+    X_local = X.copy()
     mean1 = np.mean(X[:, 0])
     mean2 = np.mean(X[:, 1])
     div1 = np.std(X[:, 0])
     div2 = np.std(X[:, 1])
-    X[:, 0] = (X[:, 0] - mean1) / div1
-    X[:, 1] = (X[:, 1] - mean2) / div2
-    return X, mean1, mean2, div1, div2
+    X_local[:, 0] = (X[:, 0] - mean1) / div1
+    X_local[:, 1] = (X[:, 1] - mean2) / div2
+    return X_local, mean1, mean2, div1, div2
 
 
 def set_data():
@@ -49,21 +50,8 @@ def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
 
     return theta, J_iter
 
-    return theta, J_iter
-
 
 def plot_reg_line_and_cost_3(X, y, theta, j_iter, iter):
-    """
-    plot_reg_line_and_cost plots the data points and regression line for linear regression
-    along with the cost over iterations.
-
-    Input arguments:
-    X - np array (m, 3) - independent variables.
-    y - np array (m, 1) - target variable.
-    theta - np array (3, 1) - parameters.
-    j_iter - list of cost values over iterations.
-    iter - current iteration number.
-    """
     fig = plt.figure(figsize=(14, 5))
 
     # 3D plot for regression data and line
@@ -101,17 +89,21 @@ def plot_reg_line_and_cost_3(X, y, theta, j_iter, iter):
 
 
 X, y = set_data()
-X, mean1, mean2, div1, div2 = data_normalization(X)
+X_norm, mean1, mean2, div1, div2 = data_normalization(X)
 X = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
+X_norm = np.concatenate((np.ones((X_norm.shape[0], 1)), X_norm), axis=1)
 theta = np.zeros((3, 1))
 alpha = 0.001
 num_iter = 100
-q, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, 16)
+q, J_iter = gd_mini_batch(X_norm, y, theta, alpha, num_iter, 16)
+plot_reg_line_and_cost_3(X_norm, y, q, J_iter, num_iter)
+print(f"theta0={q[0]}    theta1={q[1]}    theta2={q[2]}")
+h = q[0] + q[1] * ((1200 - mean1) / div1) + (((q[2]) - mean2) / div2) * 5
+print(f"The predicted cost for house with 1200 sf and 5 rooms: {h}")
+print()
+""" C """
+q = np.linalg.inv(X.T @ X) @ X.T @ y
 plot_reg_line_and_cost_3(X, y, q, J_iter, num_iter)
 print(f"theta0={q[0]}    theta1={q[1]}    theta2={q[2]}")
-h = q[0] + q[1] * ((1200-mean1)/div1) + (((q[2])-mean2)/div2) * 5
+h = q[0] + q[1] * 1200 + q[2] * 5
 print(f"The predicted cost for house with 1200 sf and 5 rooms: {h}")
-
-
-
-
