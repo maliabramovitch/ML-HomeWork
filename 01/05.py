@@ -99,9 +99,10 @@ q, J_iter = gd_mini_batch(X_norm, y, theta, alpha, num_iter, 16)
 plot_reg_line_and_cost_3(X_norm, y, q, J_iter, num_iter)
 print(f"theta0={q[0]}    theta1={q[1]}    theta2={q[2]}")
 h = q[0] + q[1] * ((1200 - mean1) / div1) + (((q[2]) - mean2) / div2) * 5
+# B
 print(f"The predicted cost for house with 1200 sf and 5 rooms: {h}")
 print()
-""" C """
+# C
 q = np.linalg.inv(X.T @ X) @ X.T @ y
 plot_reg_line_and_cost_3(X, y, q, J_iter, num_iter)
 print(f"theta0={q[0]}    theta1={q[1]}    theta2={q[2]}")

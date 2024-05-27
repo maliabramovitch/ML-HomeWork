@@ -4,6 +4,19 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
 
+# A
+def show_data(show=False):
+    xs = np.load('TA_Xhouses.npy')
+    ys = np.load('TA_yprice.npy')
+    if show:
+        plt.plot(xs, ys, 'xr')
+        plt.title('Cost of house in 100K ILS')
+        plt.xlabel("House's front Length in meters")
+        plt.ylabel("House's cost in 100K ILS")
+        plt.show()
+    return xs, ys
+
+
 def plot_reg_line(X, y, theta):
     """
     plot_reg_line plots the data points and regression line
@@ -50,18 +63,6 @@ def plot_reg_line2(X, y, theta):
     plt.show()
 
 
-def show_data(show=False):
-    xs = np.load('TA_Xhouses.npy')
-    ys = np.load('TA_yprice.npy')
-    if show:
-        plt.plot(xs, ys, 'xr')
-        plt.title('Cost of house in 100K ILS')
-        plt.xlabel("House's front Length in meters")
-        plt.ylabel("House's cost in 100K ILS")
-        plt.show()
-    return xs, ys
-
-
 def cost_computation(X, y, q):
     m = y.shape[0]
     z = np.dot(X, q) - y
@@ -77,8 +78,13 @@ def gd_batch(X, y, q, alpha, num_iter):
     return q, J_iter
 
 
-# """A-C"""
+"""A-C"""
+
+
 def lr_01():
+    '''
+    Model GD from QU 01
+    '''
     x, y = show_data(True)
     if x.shape[1] == 2:
         ind = 1
@@ -99,6 +105,9 @@ def lr_01():
 
 
 def my_lr():
+    '''
+    my GD
+    '''
     model = lr_01()
     x, y = show_data()
     theta = np.zeros((2, 1))
@@ -119,6 +128,9 @@ my_lr()
 
 
 def lr_12():
+    '''
+    Model GD for for polynom
+    '''
     X, y = show_data()
     X = np.concatenate((X, X ** 2), axis=1)
     model = LinearRegression(fit_intercept=True)
@@ -141,6 +153,9 @@ lr_12()
 
 
 def my_lr2():
+    """
+    my GD for polynom
+    """
     model = lr_12()
     x, y = show_data()
     X = np.concatenate((x, x ** 2), axis=1)
@@ -149,11 +164,11 @@ def my_lr2():
     X = np.concatenate((np.ones((m, 1)), X), axis=1)
     q, J_iter = gd_batch(X, y, theta, 0.000001, 5000)
     plot_reg_line2(X, y, q)
-    y = model.predict(X[:,1:])
+    y = model.predict(X[:, 1:])
     for m in [15, 27]:
-        print(f'The predicted price for {m} meters from the model = {model.predict([[m, m**2]])}')
+        print(f'The predicted price for {m} meters from the model = {model.predict([[m, m ** 2]])}')
+    # E
     print("we can see that the liniar regression predicted preformed better")
 
 
 my_lr2()
-
