@@ -2,7 +2,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+# A
+def show_data():
+    """
+    this function read, organize and show the data
+    """
+    data = np.load('Cricket.npz')
+    yx = data['arr_0']
+    x = yx[:, 1]
+    y = yx[:, 0]
+
+    plt.plot(x, y, 'or')
+    plt.grid()
+    plt.title('Cricket Data')
+    plt.show()
+    return data
+
+
+# B
+def cost_computation(X, y, q):
+    m = y.shape[0]
+    z = np.dot(X, q) - y
+    J = 1 / (2 * m) * (np.dot(z.T, z)[0][0])
+    return J
+
+
+# C
+def gd_batch(X, y, q, alpha, num_iter):
+    J_iter = np.zeros((num_iter, 1))
+    for j in range(num_iter):
+        q -= alpha * (X.T @ (np.dot(X, q) - y))
+        J_iter[j] = cost_computation(X, y, q)
+    return q, J_iter
+
+
+# E, F
 def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
+    '''
+    function to create the plots of regreesion line and cost function
+    '''
     if X.shape[1] == 2:
         ind = 1
     else:
@@ -34,35 +72,6 @@ def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
     fig.show()
 
 
-# showing the data
-def show_data():
-    data = np.load('Cricket.npz')
-    yx = data['arr_0']
-    x = yx[:, 1]
-    y = yx[:, 0]
-
-    plt.plot(x, y, 'or')
-    plt.grid()
-    plt.title('Cricket Data')
-    plt.show()
-    return data
-
-
-def cost_computation(X, y, q):
-    m = y.shape[0]
-    z = np.dot(X, q) - y
-    J = 1 / (2 * m) * (np.dot(z.T, z)[0][0])
-    return J
-
-
-def gd_batch(X, y, q, alpha, num_iter):
-    J_iter = np.zeros((num_iter, 1))
-    for j in range(num_iter):
-        q -= alpha * (X.T @ (np.dot(X, q) - y))
-        J_iter[j] = cost_computation(X, y, q)
-    return q, J_iter
-
-
 data = show_data()
 sorted(data)
 yx = data['arr_0']
@@ -82,6 +91,7 @@ theta, J_iter = gd_batch(X, y, theta, alpha, num_iter)
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
 deg = [87, 58, 38]
 print(f'theta0 = {theta[0]}    theta1 = {theta[1]}')
+# D, G
 for d in deg:
     h = theta[0] + theta[1] * d
     print(f'the prediction frequency for {d} degrees = {h}')
