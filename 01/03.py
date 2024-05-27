@@ -2,35 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
-    if X.shape[1] == 2:
-        ind = 1
-    else:
-        ind = 0
-
-    x_min = X[:, ind].min()
-    x_max = X[:, ind].max()
-    ind_min = X[:, ind].argmin()
-    ind_max = X[:, ind].argmax()
-    y_min = y[ind_min]
-    y_max = y[ind_max]
-    Xlh = X[(ind_min, ind_max), :]
-    yprd_lh = np.dot(Xlh, theta)
-    (fig, axe) = plt.subplots(1, 2)
-    axe[0].plot(X[:, ind], y, 'mo', Xlh[:,1], yprd_lh, 'c-')
-    axe[0].axis((x_min - 3, x_max + 3, min(y_min, y_max) - 3, max(y_min, y_max) + 3))
-    axe[0].set_title('Regression data')
-    axe[0].grid()
-
-    axe[1].plot(j_iter[:iter], 'r')
-    axe[1].set_title('Cost')
-    axe[1].grid()
-    alpha_str = "{:.5f}".format(alpha)
-    fig.suptitle(f'Iter: {iter}    Alpha: {alpha_str}')
-    plt.tight_layout()
-    fig.show()
-
-
+# A
 def show_data():
     data = np.loadtxt('faithful.txt')
     n_row = data.shape[0]
@@ -43,14 +15,14 @@ def show_data():
     plt.show()
     return x, y
 
-
+# D
 def cost_computation(X, y, q):
     m = X.shape[0]
     z = np.dot(X, q) - y
     J = 1 / (2 * m) * (np.dot(z.T, z)[0][0])
     return J
 
-
+# A
 def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
     m = X.shape[0]
     J_iter = np.zeros(num_iter)
@@ -75,6 +47,35 @@ def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
     return theta, J_iter
 
 
+def plot_reg_line_and_cost(X, y, theta, j_iter, iter, alpha):
+    if X.shape[1] == 2:
+        ind = 1
+    else:
+        ind = 0
+
+    x_min = X[:, ind].min()
+    x_max = X[:, ind].max()
+    ind_min = X[:, ind].argmin()
+    ind_max = X[:, ind].argmax()
+    y_min = y[ind_min]
+    y_max = y[ind_max]
+    Xlh = X[(ind_min, ind_max), :]
+    yprd_lh = np.dot(Xlh, theta)
+    (fig, axe) = plt.subplots(1, 2)
+    axe[0].plot(X[:, ind], y, 'mo', Xlh[:, 1], yprd_lh, 'c-')
+    axe[0].axis((x_min - 3, x_max + 3, min(y_min, y_max) - 3, max(y_min, y_max) + 3))
+    axe[0].set_title('Regression data')
+    axe[0].grid()
+
+    axe[1].plot(j_iter[:iter], 'r')
+    axe[1].set_title('Cost')
+    axe[1].grid()
+    alpha_str = "{:.5f}".format(alpha)
+    fig.suptitle(f'Iter: {iter}    Alpha: {alpha_str}')
+    plt.tight_layout()
+    fig.show()
+
+
 x, y = show_data()
 x = x.reshape(x.shape[0], 1)
 y = y.reshape(y.shape[0], 1)
@@ -87,7 +88,10 @@ mini_batch_size = 16
 theta, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, mini_batch_size)
 print(f'theta0 = {theta[0]}    theta1 = {theta[1]}')
 print(f'Cost = {J_iter[-1]}')
+
+# C
 for m in [2.1, 3.5, 5.2]:
+    # B
     h = theta[0] + theta[1] * m
     print(f'the prediction for explosion with {m} minutes duration = {h}')
 plot_reg_line_and_cost(X, y, theta, J_iter, num_iter, alpha)
