@@ -79,20 +79,20 @@ def gd_mini_batch(X, y, theta, q, num_iter, batch_size):
     return theta, J_iter
 
 
-# a
+# A
 X, y = show_data()
-# b
+# B
 X = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
 theta = np.zeros((2, 1))
 alpha = 0.001
 num_iter = 200
 q, J_iter = gd_mini_batch(X, y, theta, alpha, num_iter, 14)
-# c
+# C
 plot_reg_line_and_cost(X, y, q, J_iter, num_iter, alpha)
 print(f"theta0={q[0]}    theta1={q[1]}")
-# d
+# D
 h = lambda x: q[0] + x * q[1]
 print(f"the predictable calories consumption for 250 kg mammal is: {(np.exp(h(np.log(250))) / 4.18) * 1000}")
-# e
+# E
 w = lambda x: (x - q[0]) / q[1]
 print(f'The weight of mammal that consume 3.5 kjoul per day is {np.exp(w(np.log(3.5)))}')
