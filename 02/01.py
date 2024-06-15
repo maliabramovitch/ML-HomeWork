@@ -133,8 +133,8 @@ plt.show()
 plot_log_reg_line(X_norm, y, theta)
 
 """ H """
-z = lambda x1, x2: theta[0] + theta[1] * ((x1-x1_mean)/x1_std) + theta[2] * ((x2-x2_mean)/x2_std)
-h1 = sigmoid(z(65,42))
+z = lambda x1, x2: theta[0] + theta[1] * ((x1 - x1_mean) / x1_std) + theta[2] * ((x2 - x2_mean) / x2_std)
+h1 = sigmoid(z(65, 42))
 print(f"The probability of students with grades [65,42] is: {h1}")
-h2 = sigmoid(z(53,85))
+h2 = sigmoid(z(53, 85))
 print(f"The probability of students with grades [53,85] is: {h2}")
