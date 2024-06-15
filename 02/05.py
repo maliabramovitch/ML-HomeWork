@@ -10,9 +10,6 @@ import matplotlib.pyplot as plt
 
 
 def plot_points_and_boundary(X, y, theta, b=0):
-    """"
-
-    """
     ind = 1
     x1_min = 0.9 * X[:, ind].min()
     x1_max = 1.1 * X[:, ind].max()
