@@ -27,15 +27,13 @@ def polyFeatureVector(x1, x2, degree):
     return Xp
 
 
-def plotDecisionBoundary1(theta, X, y, d):
-
-    
+def plotDecisionBoundary1(theta, X, y, d, title):
     x1 = X[: , 1]
     x2 = X[: , 2]
     plt.plot()
-    fig1 = plt.plot(x1[y[:,0] == 0], x2[y[:,0] == 0], 'ro',x1[y[:,0] == 1], x2[y[:,0] == 1],              'go')
+    fig1 = plt.plot(x1[y[:,0] == 0], x2[y[:,0] == 0], 'rD',x1[y[:,0] == 1], x2[y[:,0] == 1], 'go')
     plt.xlabel('x1'), plt.ylabel('x2') 
-    plt.title('data')
+    plt.title(title)
     plt.grid()
     plt.plot()    
     u = np.linspace(-1, 1.5, 50)
@@ -46,3 +44,4 @@ def plotDecisionBoundary1(theta, X, y, d):
                 z[i,j] = np.dot(polyFeatureVector(np.array([u[i]]), np.array([v[j]]), d),theta)
     z = np.transpose(z)
     fig1 = plt.contour(u, v, z, levels=[0], linewidth=2).collections[0]
+    plt.show()
