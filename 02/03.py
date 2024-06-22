@@ -160,9 +160,9 @@ thetas = []
 for l in lmbda:
     theta, J_iter = gd_reg(X, y, theta, alpha, num_iters, l)
     thetas.append(theta)
-    #plotDecisionBoundaryfunctions.plotDecisionBoundary1(theta, X, y, 6, f'lambda = {l}')
+    plotDecisionBoundaryfunctions.plotDecisionBoundary1(theta, X, y, 6, f'lambda = {l}')
 print(
-    "The effect of the lambda on the decision boundary is that as the lambda increases, so does the decision boundary")
+    "The effect of the lambda on the decision boundary is that as the lambda increases, so does the decision boundary.")
 
 """ F """
 Xdata = pd.read_csv("email_data_3_2024.csv")
@@ -171,9 +171,10 @@ X_orig = data[:, 0:2]
 x1 = X_orig[:, 0]
 x2 = X_orig[:, 1]
 y = data[:, 2]
-m = y.size
 X = map_feature.map_feature(x1, x2)
-n = X.shape[1]
 y = y.reshape([y.shape[0], 1])
 for i in range(6):
-    plotDecisionBoundaryfunctions.plotDecisionBoundary1(thetas[i], X, y, 6, f'email 3- lambda = {lmbda[i]}')
+    correct_predictions = (np.sum(sigmoid(np.dot(X, thetas[i]))[y == 1] > 0.5) +
+                           np.sum(sigmoid(np.dot(X, thetas[i]))[y == 0] < 0.5))
+    print(
+    f"The number of correct samples that classified as ture: {correct_predictions}\nthe percentage of right identification is {correct_predictions / 100}\n lambda={lmbda[i]}\n");
