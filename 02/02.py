@@ -143,7 +143,7 @@ for x1, x2 in X_orig:
     correct_predictions += 1 if ((h >= 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
     index += 1
 print(
-    f"Linear:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / 100}")
+    f"Linear:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / X_orig.shape[0]}")
 print()
 index = 0
 correct_predictions = 0
@@ -152,4 +152,4 @@ for x1, x2, x3 in X_quad:
     correct_predictions += 1 if ((h > 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
     index += 1
 print(
-    f"Quad:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / 100}")
+    f"Quad:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / X_orig.shape[0]}")
