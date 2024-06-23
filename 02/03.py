@@ -69,7 +69,6 @@ def computeCost_l(X, y, theta, lmbda):
     """
     m = y.size
     J = []
-    grad_J = np.zeros(theta.shape)
     z = np.dot(X, theta)
     h_theta = sigmoid(z)
     J = - (1 / m) * (np.dot(y.T, np.log(h_theta)) + np.dot((1 - y).T, np.log(1 - h_theta)))
@@ -174,7 +173,7 @@ y = data[:, 2]
 X = map_feature.map_feature(x1, x2)
 y = y.reshape([y.shape[0], 1])
 for i in range(6):
-    correct_predictions = (np.sum(sigmoid(np.dot(X, thetas[i]))[y == 1] >= 0.5) +
+    correct_predictions = (np.sum(sigmoid(np.dot(X, thetas[i]))[y == 1] > 0.5) +
                            np.sum(sigmoid(np.dot(X, thetas[i]))[y == 0] < 0.5))
     print(
         f"lambda={lmbda[i]}:\nThe number of correct samples that classified as ture: {correct_predictions}\nthe percentage of right identification is {correct_predictions / 100}\n");

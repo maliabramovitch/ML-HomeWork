@@ -149,7 +149,7 @@ index = 0
 correct_predictions = 0
 for x1, x2, x3 in X_quad:
     h = sigmoid(z_quad(x1, x2, x3))[0]
-    correct_predictions += 1 if ((h >= 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
+    correct_predictions += 1 if ((h > 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
     index += 1
 print(
     f"Quad:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / 100}")
