@@ -90,7 +90,6 @@ def test_prediction(classifiers, X_samples, rigth_tags):
     rigth_tags_row = rigth_tags.reshape((1, rigth_tags.size))[0]
     print(f"predictios = {test_predictions}")
     print(f"tests tags = {rigth_tags_row}")
-    print()
     print(f"the percentage of right identification is {int(correct_predictions / rigth_tags.size * 100)}%", end='\n\n')
     return test_predictions, rigth_tags_row
 
