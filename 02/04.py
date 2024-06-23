@@ -186,5 +186,5 @@ y_virginica_b = np.array([1 if 135 <= i < 150 else 0 for i in test_sampels_index
 classifiers = [theta_setosa, theta_versicolor, theta_virginica]
 rigth_tags = [y_setosa_b, y_versicolor_b, y_virginica_b]
 
-
+print()
 test_prediction(classifiers, X_samples, rigth_tags)

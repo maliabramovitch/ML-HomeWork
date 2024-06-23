@@ -105,7 +105,7 @@ n = X.shape[1]
 theta = np.zeros((n, 1))
 y = y.reshape([y.shape[0], 1])
 J, grad_J = computeCost(X, y, theta)
-alpha = 0.001
+alpha = 0.04
 num_iters = 90000
 theta, J_iter = gradDescent_log(X, y, theta, alpha, num_iters)
 plot_log_reg_line(X, y, theta)
@@ -143,7 +143,7 @@ for x1, x2 in X_orig:
     correct_predictions += 1 if ((h >= 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
     index += 1
 print(
-    f"Linear:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / X_orig.shape[0]}")
+    f"Linear:\nThe number of samples that classified correct: {correct_predictions}\nthe percentage of right identification is {int(correct_predictions / X_orig.shape[0] * 100)}")
 print()
 index = 0
 correct_predictions = 0
@@ -152,4 +152,4 @@ for x1, x2, x3 in X_quad:
     correct_predictions += 1 if ((h > 0.5 and y[index] == 1) or (h < 0.5 and y[index] == 0)) else 0
     index += 1
 print(
-    f"Quad:\nThe number of correct samples that classified as ture is: {correct_predictions}\nthe percentage of right identification is {correct_predictions / X_orig.shape[0]}")
+    f"Quad:\nLinear:\nThe number of samples that classified correct: {correct_predictions}\nthe percentage of right identification is {int(correct_predictions / X_orig.shape[0] * 100)}")
