@@ -177,4 +177,4 @@ for i in range(len(thetas)):
     correct_predictions = (np.sum(sigmoid(np.dot(X, thetas[i]))[y == 1] > 0.5) +
                            np.sum(sigmoid(np.dot(X, thetas[i]))[y == 0] < 0.5))
     print(f"lambda={lmbda[i]}:\nThe number of samples that classified correct: {correct_predictions}",
-          f"the percentage of right identification is {int(correct_predictions / X.shape[0]*100)}\n", sep='\n')
+          f"the percentage of right identification is {int(correct_predictions / X.shape[0]*100)}%\n", sep='\n')

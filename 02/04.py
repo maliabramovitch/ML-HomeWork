@@ -78,12 +78,20 @@ def plot_log_reg_line(X, y, theta, title='data', x1_title='x1', x2_title='x2'):
 
 
 def test_prediction(classifiers, X_samples, rigth_tags):
-    for i in range(3):
-        correct_predictions = (np.sum(sigmoid(np.dot(X_samples, classifiers[i]))[rigth_tags[i] == 1] > 0.5) +
-                               np.sum(sigmoid(np.dot(X_samples, classifiers[i]))[rigth_tags[i] == 0] < 0.5))
-        print(f"The number of samples that classified correct: {correct_predictions}",
-              f"the percentage of right identification is {int(correct_predictions / X_samples.shape[0] * 100)}",
-              sep='\n', end='\n\n')
+    test_predictions = []
+    correct_predictions = 0
+    for i in range(len(X_samples)):
+        chances = np.array([sigmoid(np.dot(X_samples[i], theta)) for theta in classifiers])
+        prediction = chances.argmax()
+        test_predictions.append(prediction)
+        if prediction == rigth_tags[i]:
+            correct_predictions += 1
+    test_predictions = np.array(test_predictions)
+    rigth_tags_row = rigth_tags.reshape((1, rigth_tags.size))[0]
+    print(f"predictios = {test_predictions}")
+    print(f"tests tags = {rigth_tags_row}")
+    print()
+    print(f"the percentage of right identification is {int(correct_predictions / rigth_tags.size * 100)}%", end='\n\n')
 
 
 """ A """
@@ -142,11 +150,11 @@ X_samples_orig = X_petal_length_sepal_width[test_sampels_indexes, :]
 m = X_samples_orig.shape[0]
 onesvec = np.ones((m, 1))
 X_samples = np.concatenate((onesvec, X_samples_orig), axis=1)
-y_setosa_b = np.array([1 if 35 <= i < 50 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
-y_versicolor_b = np.array([1 if 85 <= i < 100 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
-y_virginica_b = np.array([1 if 135 <= i < 150 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
+y_setosa_b = np.array([0 for i in test_sampels_indexes if 35 <= i < 50]).reshape((-1, 1))
+y_versicolor_b = np.array([1 for i in test_sampels_indexes if 85 <= i < 100]).reshape((-1, 1))
+y_virginica_b = np.array([2 for i in test_sampels_indexes if 135 <= i < 150]).reshape((-1, 1))
+rigth_tags = np.concatenate((y_setosa_b, y_versicolor_b, y_virginica_b))
 classifiers = [theta_setosa, theta_versicolor, theta_virginica]
-rigth_tags = [y_setosa_b, y_versicolor_b, y_virginica_b]
 
 test_prediction(classifiers, X_samples, rigth_tags)
 
@@ -180,11 +188,11 @@ X_samples_orig = X_petal_length_sepal_width[test_sampels_indexes, :]
 m = X_samples_orig.shape[0]
 onesvec = np.ones((m, 1))
 X_samples = np.concatenate((onesvec, X_samples_orig), axis=1)
-y_setosa_b = np.array([1 if 35 <= i < 50 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
-y_versicolor_b = np.array([1 if 85 <= i < 100 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
-y_virginica_b = np.array([1 if 135 <= i < 150 else 0 for i in test_sampels_indexes]).reshape((-1, 1))
+y = iris.target
+y_setosa_b = np.array([0 for i in test_sampels_indexes if 35 <= i < 50]).reshape((-1, 1))
+y_versicolor_b = np.array([1 for i in test_sampels_indexes if 85 <= i < 100]).reshape((-1, 1))
+y_virginica_b = np.array([2 for i in test_sampels_indexes if 135 <= i < 150]).reshape((-1, 1))
+rigth_tags = np.concatenate((y_setosa_b, y_versicolor_b, y_virginica_b))
 classifiers = [theta_setosa, theta_versicolor, theta_virginica]
-rigth_tags = [y_setosa_b, y_versicolor_b, y_virginica_b]
-
 print()
 test_prediction(classifiers, X_samples, rigth_tags)
