@@ -78,7 +78,7 @@ def perceptron_train(X, y, plotflag, max_iter):
         # ---------------------------------------------------------------------
         if is_first_iter == 1 or a < 0:
             # -----------------------------------------------------------------
-            ####### your code here (3 lines)
+            ####### your code here (03 lines)
             theta += xt * yt
             num_correct = 0  # it should be zeroed after each error
             k += 1  # this counts the iterations (i.e. the number of error occurences)
@@ -100,7 +100,7 @@ def perceptron_train(X, y, plotflag, max_iter):
 # 0 producing separable dataset
 
 # x0 = np.random.randn(50, 2) + 1.8 * np.ones((50, 2))
-# x1 = np.random.randn(50, 2) + 5.3 * np.ones((50, 2))
+# x1 = np.random.randn(50, 2) + 5.03 * np.ones((50, 2))
 # X = np.concatenate((x0, x1), axis=0)
 # y = np.ones((100, 1))
 # y[50:] = -1

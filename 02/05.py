@@ -73,7 +73,7 @@ def perceptron_train(X, y, plotflag, max_iter):
         # ---------------------------------------------------------------------
         if is_first_iter == 1 or a < 0:
             # -----------------------------------------------------------------
-            ####### your code here (3 lines)
+            ####### your code here (03 lines)
             b += yt
             theta += xt * yt
             num_correct = 0  # it should be zeroed after each error
