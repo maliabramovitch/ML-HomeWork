@@ -108,16 +108,19 @@ plt.subplot(111)
 plt.plot(dataset[min_assignment == 0, 0], dataset[min_assignment == 0, 2], 'go', label='Cluster 0')
 plt.plot(dataset[min_assignment == 1, 0], dataset[min_assignment == 1, 2], 'ro', label='Cluster 1')
 plt.plot(dataset[min_assignment == 2, 0], dataset[min_assignment == 2, 2], 'bo', label='Cluster 2')
-plt.plot(min_centroids[0, 0], centroids[0, 1], 'gx', label='Centroid 0')
-plt.plot(min_centroids[1, 0], centroids[1, 1], 'rx', label='Centroid 1')
-plt.plot(min_centroids[2, 0], centroids[2, 1], 'bx', label='Centroid 2')
+plt.plot(min_centroids[0, 0], min_centroids[0, 1], 'gx', label='Centroid 0')
+plt.plot(min_centroids[1, 0], min_centroids[1, 1], 'rx', label='Centroid 1')
+plt.plot(min_centroids[2, 0], min_centroids[2, 1], 'bx', label='Centroid 2')
 plt.show()
 print("2 attributes")
 d = {0: "Adelie", 1: "Chinstrap", 2: "Gentoo"}
 for i in range(3):
-    unique_elements, counts = np.unique(assignment[y == i], return_counts=True)
-    print(f"{d[i]} class correct prediction: {np.max(counts)}/{assignment[y == i].size}")
+    unique_elements, counts = np.unique(min_assignment[y == i], return_counts=True)
+    print(f"{d[i]} class correct prediction: {np.max(counts)}/{min_assignment[y == i].size}")
 print("\nall attributes")
+min_assignment = None
+min_err = None
+min_centroides = None
 for i in range(10):
     centroids, assignment = k_means(3, dataset)
     err = calc_error(3, dataset, centroids, assignment)
@@ -126,5 +129,5 @@ for i in range(10):
         min_err = err
         min_centroids = centroids
 for i in range(3):
-    unique_elements, counts = np.unique(assignment[y == i], return_counts=True)
-    print(f"{d[i]} class correct prediction: {np.max(counts)}/{assignment[y == i].size}")
+    unique_elements, counts = np.unique(min_assignment[y == i], return_counts=True)
+    print(f"{d[i]} class correct prediction: {np.max(counts)}/{min_assignment[y == i].size}")
