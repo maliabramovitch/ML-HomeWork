@@ -49,7 +49,7 @@ images = np.rot90(images, k=-1, axes=(1, 2))
 
 # 1.c
 plot_25_images(1)
-#%%
+
 plot_25_images(0)
 
 
