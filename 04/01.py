@@ -276,5 +276,4 @@ _, acc_train = best_model_5.evaluate(X_train, y_train, verbose=0)
 print(f'best model: {best_params_5}')
 print(f"Train accuracy: {acc_train}")
 print(f"Validation accuracy: {best_accuracy_5}")
-print(f"Test accuracy: {test_acc}")
-
+print(f"Test accuracy: {acc_test}")
