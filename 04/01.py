@@ -273,7 +273,8 @@ for hidden1 in hidden_units_options:
 _, acc_test = best_model_5.evaluate(X_test, y_test, verbose=0)
 _, acc_train = best_model_5.evaluate(X_train, y_train, verbose=0)
 
+print(f'best model: {best_params_5}')
 print(f"Train accuracy: {acc_train}")
-print(f"Validation accuracy: {best_model_5['Accuracy']}")
+print(f"Validation accuracy: {best_accuracy_5}")
 print(f"Test accuracy: {test_acc}")
 
