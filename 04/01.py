@@ -11,18 +11,19 @@ from sklearn.model_selection import train_test_split
 df = pd.read_excel('face_data.xlsx')
 
 M = df.to_numpy()
-M.shape
+print(f"M.shape = {M.shape}")
 
 MT = M.T
-MT.shape
+print(f"MT.shape = {MT.shape}")
 
 X = MT[:-1, 1000:5000]
-X.shape
+print(f"X.shape = {X.shape}")
 
 Y = MT[784, 1000:5000]
 Y[Y == -1] = 0
 Y = Y.reshape(1, Y.shape[0])
-Y.shape
+print(f"Y.shape = {Y.shape}")
+
 
 def plot_25_images(tags):
     indices = np.where(Y == tags)[1]
@@ -43,6 +44,7 @@ def plot_25_images(tags):
     plt.subplots_adjust(top=0.95)
     plt.show()
 
+
 # 1.b
 images = M[1000:5000, :-1].reshape((X.shape[1], 28, 28))
 images = np.rot90(images, k=-1, axes=(1, 2))
@@ -62,6 +64,7 @@ def build_model(layers_size, layers_activation, alpha, regu_lambda):
     opt = keras.optimizers.Adam(learning_rate=alpha)
     model.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
     return model
+
 
 # 1.e
 X_train, X_val, y_train, y_val = train_test_split(X.T, Y.T, test_size=0.2, random_state=42)
@@ -226,6 +229,7 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.95)
 plt.show()
 
+
 def build_model_2(sequence, act_functions):
     model = keras.Sequential()
 
@@ -242,6 +246,7 @@ def build_model_2(sequence, act_functions):
 
     return model
 
+
 hidden_units_options = [8, 16, 64]
 activation_func = ['sigmoid', 'softmax']
 num_output = np.unique(y_train).size
@@ -254,7 +259,6 @@ best_model_5 = 0
 X_train = X_train.reshape(X_train.shape[0], -1)
 X_valid = X_valid.reshape(X_valid.shape[0], -1)
 X_test = X_test.reshape(X_test.shape[0], -1)
-
 
 for hidden1 in hidden_units_options:
     for hidden2 in hidden_units_options:
